@@ -12,7 +12,7 @@ public class TourDomainServiceImpl implements TourDomainService {
         return new Tour(
                 tourForm.getTourName(),
                 tourForm.getTransportType(),
-                tourForm.getGuideValueObject()
+                tourForm.getGuideValueObject().getGuideId()
         );
     }
 }

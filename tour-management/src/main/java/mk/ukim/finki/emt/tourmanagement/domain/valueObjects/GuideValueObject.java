@@ -2,6 +2,7 @@ package mk.ukim.finki.emt.tourmanagement.domain.valueObjects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import mk.ukim.finki.emt.sharedkernel.base.ValueObject;
 
@@ -16,5 +17,10 @@ public class GuideValueObject implements ValueObject {
     public GuideValueObject(@JsonProperty("id") GuideId guideId, @JsonProperty("name") String name) {
         this.guideId = guideId;
         this.name = name;
+    }
+
+    public GuideValueObject() {
+        this.guideId = GuideId.randomId(GuideId.class);
+        this.name = "";
     }
 }

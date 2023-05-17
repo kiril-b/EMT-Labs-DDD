@@ -7,6 +7,7 @@ import mk.ukim.finki.emt.sharedkernel.financial.Currency;
 import mk.ukim.finki.emt.sharedkernel.financial.Money;
 import mk.ukim.finki.emt.tourmanagement.domain.enums.TransportType;
 import mk.ukim.finki.emt.tourmanagement.domain.exceptions.ReservationCurrencyMismatchException;
+import mk.ukim.finki.emt.tourmanagement.domain.valueObjects.GuideId;
 import mk.ukim.finki.emt.tourmanagement.domain.valueObjects.GuideValueObject;
 
 import java.util.List;
@@ -22,16 +23,18 @@ public class Tour extends AbstractEntity<TourId> {
     @Enumerated(EnumType.STRING)
     private TransportType transportType;
 
-    private GuideValueObject guide;
+
+    @AttributeOverride(name="id", column = @Column(name="guide_id", nullable = false))
+    private GuideId guideId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Reservation> reservations;
 
-    public Tour(String tourName, TransportType transportType, GuideValueObject guide) {
+    public Tour(String tourName, TransportType transportType, GuideId guideId) {
         super(TourId.randomId(TourId.class));
         this.tourName = tourName;
         this.transportType = transportType;
-        this.guide = guide;
+        this.guideId = guideId;
     }
 
     public Tour() {

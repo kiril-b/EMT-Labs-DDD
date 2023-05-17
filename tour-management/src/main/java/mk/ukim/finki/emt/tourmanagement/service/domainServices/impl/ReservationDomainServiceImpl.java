@@ -28,7 +28,7 @@ public class ReservationDomainServiceImpl implements ReservationDomainService {
 
         return new Reservation(
                 reservationForm.getDuration(),
-                reservationForm.getLocationValueObject(),
+                reservationForm.getLocationValueObject().getLocationId(),
                 reservationPrice
         );
     }
