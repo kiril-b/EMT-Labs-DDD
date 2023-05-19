@@ -10,12 +10,14 @@ import mk.ukim.finki.emt.tourmanagement.domain.valueObjects.*;
 import mk.ukim.finki.emt.tourmanagement.service.appServices.TourAppService;
 import mk.ukim.finki.emt.tourmanagement.service.forms.ReservationForm;
 import mk.ukim.finki.emt.tourmanagement.service.forms.TourForm;
+import mk.ukim.finki.emt.tourmanagement.xport.client.GuideClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 public class TourAppServiceTests {
@@ -23,11 +25,16 @@ public class TourAppServiceTests {
     @Autowired
     private TourAppService tourAppService;
 
+    @Autowired
+    private GuideClient guideClient;
+
     @Test
-    public void testAddTour_thenAddReservations() {
+    public void testAddTour_thenAddReservations_withRealData() {
+        List<GuideValueObject> guides = guideClient.findAll();
+
         TourForm tourForm = new TourForm();
         tourForm.setTourName("Tour France");
-        tourForm.setGuideValueObject(new GuideValueObject(GuideId.randomId(GuideId.class), "Peter"));
+        tourForm.setGuideValueObject(guides.get(0));
         tourForm.setTransportType(TransportType.AEROPLANE);
 
         ReservationForm reservationForm1 = new ReservationForm();
@@ -53,4 +60,5 @@ public class TourAppServiceTests {
         Tour tour = tourAppService.findById(newTourId).orElseThrow(TourIdNotExistsException::new);
         Assertions.assertEquals(tour.totalPrice(), Money.valueOf(Currency.EUR, 300 * 5 + 200 * 5));
     }
+
 }

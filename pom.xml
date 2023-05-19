@@ -16,6 +16,7 @@
     <modules>
         <module>shared-kernel</module>
         <module>tour-management</module>
+        <module>user-management</module>
     </modules>
 
 </project>
