@@ -13,17 +13,14 @@ import mk.ukim.finki.emt.sharedkernel.base.ValueObject;
 @Entity
 @Table(name = "tour_ids")
 @Getter
-public class TourIdHolder extends AbstractEntity<GuideId> {
-
-    @AttributeOverride(name="id", column = @Column(name="tour_id", nullable = false))
-    private final TourId tourId;
+public class TourIdHolder extends AbstractEntity<TourId> {
 
     @JsonCreator
     public TourIdHolder(TourId tourId) {
-        this.tourId = tourId;
+        super(tourId);
     }
 
     public TourIdHolder() {
-        this.tourId = TourId.randomId(TourId.class);
+        super(TourId.randomId(TourId.class));
     }
 }

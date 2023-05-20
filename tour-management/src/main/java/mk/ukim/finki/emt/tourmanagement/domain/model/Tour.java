@@ -1,6 +1,7 @@
 package mk.ukim.finki.emt.tourmanagement.domain.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NonNull;
 import mk.ukim.finki.emt.sharedkernel.base.AbstractEntity;
 import mk.ukim.finki.emt.sharedkernel.financial.Currency;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tours")
+@Getter
 public class Tour extends AbstractEntity<TourId> {
 
     private String tourName;

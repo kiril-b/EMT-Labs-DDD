@@ -14,6 +14,8 @@ public interface TourAppService {
 
     TourId createTour(TourForm tourForm);
 
+    void removeTour(TourId tourId);
+
     List<Tour> findAll();
 
     Optional<Tour> findById(TourId tourId);

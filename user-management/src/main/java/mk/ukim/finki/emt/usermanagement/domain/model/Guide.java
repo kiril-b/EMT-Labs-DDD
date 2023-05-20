@@ -61,9 +61,9 @@ public class Guide extends AbstractEntity<GuideId> {
         this.tours.add(tourIdHolder);
     }
 
-    public void removeTour(TourId tourId) {
-        Objects.requireNonNull(tourId, "TourId must not be null!");
-        this.tours.removeIf(t -> t.getTourId().equals(tourId));
+    public void removeTour(TourIdHolder tourIdHolder) {
+        Objects.requireNonNull(tourIdHolder, "TourIdHolder must not be null!");
+        this.tours.removeIf(t -> t.getId().equals(tourIdHolder.getId()));
     }
 
 }

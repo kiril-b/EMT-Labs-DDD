@@ -2,6 +2,9 @@ package mk.ukim.finki.emt.tourmanagement.service.appServices.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import mk.ukim.finki.emt.sharedkernel.events.tours.TourCreated;
+import mk.ukim.finki.emt.sharedkernel.events.tours.TourRemoved;
+import mk.ukim.finki.emt.sharedkernel.infrastructure.DomainEventPublisher;
 import mk.ukim.finki.emt.tourmanagement.domain.exceptions.TourIdNotExistsException;
 import mk.ukim.finki.emt.tourmanagement.domain.model.Reservation;
 import mk.ukim.finki.emt.tourmanagement.domain.model.ReservationId;
@@ -30,11 +33,23 @@ public class TourAppServiceImpl implements TourAppService {
 
     private final ReservationDomainService reservationDomainService;
 
+    private final DomainEventPublisher domainEventPublisher;
+
     @Override
     public TourId createTour(@Valid TourForm tourForm) {
         Tour newTour = tourDomainService.toDomainObject(tourForm);
         this.tourRepository.saveAndFlush(newTour);
+
+        domainEventPublisher.publish(new TourCreated(newTour.getGuideId().getId(), newTour.getId().getId()));
+
         return newTour.getId();
+    }
+
+    @Override
+    public void removeTour(TourId tourId) {
+        Tour tour = this.tourRepository.findById(tourId).orElseThrow(TourIdNotExistsException::new);
+        domainEventPublisher.publish(new TourRemoved(tour.getId().getId(), tour.getGuideId().getId()));
+        this.tourRepository.deleteById(tourId);
     }
 
     @Override
